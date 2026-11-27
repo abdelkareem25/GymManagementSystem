@@ -1,15 +1,19 @@
-﻿using GYMManagementSystem.Context;
+﻿using GYMManagementSystem.Repositores.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GYMManagementSystem.Controllers
 {
     public class PlanController : Controller
     {
-        private GYM_DbContext _context = new GYM_DbContext();
+        
+        private IPlanRepo _planRepo;
+        public PlanController(IPlanRepo planRepo)
+        {
+            _planRepo = planRepo;
+        }
         public async Task<IActionResult> Index()
         {
-            var plans = await _context.plans.ToListAsync();
+            var plans = await _planRepo.GetAllPlansAsync();
             return View(plans);
         }
     }
